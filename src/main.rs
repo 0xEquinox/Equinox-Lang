@@ -36,6 +36,8 @@ fn main() {
                 stack.push(ans);
             }else if i.contains(".s"){
                 println!("{:?}", stack);
+            }else if i.contains(">>"){
+                println!("{}", stack[stack.len() - 1]);
             }else{
                 let num: i32 = i.trim().parse().unwrap();
                 stack.push(num);
@@ -59,6 +61,7 @@ fn mulitply(num1: i32, num2: i32) -> i32{
 fn divide(num1: i32, num2: i32) -> i32{
     return num1 / num2;
 }
+
 
 fn console_input() -> String{
 

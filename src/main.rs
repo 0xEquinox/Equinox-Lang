@@ -14,54 +14,16 @@ fn main() {
         let line: Vec<&str> = line.collect();
 
         for mut i in 0..line.len() {
-            if line[i].contains("+"){
-                let ans = add(stack[stack.len() - 1], stack[stack.len() - 2]);
-                stack.pop();
-                stack.pop();
-                stack.push(ans);
-            }else if line[i].contains("-"){
-                let ans = subtract(stack[stack.len() - 2], stack[stack.len() - 1]);
-                stack.pop();
-                stack.pop();
-                stack.push(ans);
-            }else if line[i].contains("*"){
-                let ans = mulitply(stack[stack.len() - 2], stack[stack.len() - 1]);
-                stack.pop();
-                stack.pop();
-                stack.push(ans);
-            }else if line[i].contains("/"){
-                let ans = divide(stack[stack.len() - 2], stack[stack.len() - 1]);
-                stack.pop();
-                stack.pop();
-                stack.push(ans);
-            }else if line[i].contains(".s"){
-                println!("{:?}", stack);
-            }else if line[i].contains(">>"){
-                println!("{}", stack[stack.len() - 1]);
-                stack.pop();
-            }else if line[i].contains("."){
-                stack.pop();
-            }else if line[i].contains("="){
-                let ans = equals(stack[stack.len() - 1], stack[stack.len() - 2]);
-                stack.pop();
-                stack.pop();
-                stack.push(ans);
-            }else if line[i].contains("if"){
-                let ans = if_statments(stack[stack.len() - 1] as i32, &line, i as i32);
-                if ans != 0{
-                    i = ans as usize;
-                }
-            }else if line[i].contains("then"){
-                continue;
-            }else{
-                let num: i32 = line[i].trim().parse().unwrap();
-                stack.push(num);
-            }
-            println!("{}", i)
+            stack = execute(line[i],  &stack, &line, i);
+
         }
     }
 }
+fn do_loop(line: Vec<&str>, start: i32, end: i32){
+    for i in start..end{
 
+    }
+}
 fn if_statments(enumerator: i32, line: &Vec<&str>, current_index: i32) -> i32{
     if enumerator == 1{
         return 0;
@@ -111,4 +73,55 @@ fn console_input() -> String{
     stdin.read_line(&mut input);
 
     return input;
+}
+
+fn execute(command: &str, stack1: &Vec<i32>, line: &Vec<&str>, i: usize) -> Vec<i32>{
+
+    let mut stack = stack1.clone();
+
+    if command.contains("+"){
+        let ans = add(stack[stack.len() - 1], stack[stack.len() - 2]);
+        stack.pop();
+        stack.pop();
+        stack.push(ans);
+    }else if command.contains("-"){
+        let ans = subtract(stack[stack.len() - 2], stack[stack.len() - 1]);
+        stack.pop();
+        stack.pop();
+        stack.push(ans);
+    }else if command.contains("*"){
+        let ans = mulitply(stack[stack.len() - 2], stack[stack.len() - 1]);
+        stack.pop();
+        stack.pop();
+        stack.push(ans);
+    }else if command.contains("/"){
+        let ans = divide(stack[stack.len() - 2], stack[stack.len() - 1]);
+        stack.pop();
+        stack.pop();
+        stack.push(ans);
+    }else if command.contains(".s"){
+        println!("{:?}", stack);
+    }else if command.contains(">>"){
+        println!("{}", stack[stack.len() - 1]);
+        stack.pop();
+    }else if command.contains("."){
+        stack.pop();
+    }else if command.contains("="){
+        let ans = equals(stack[stack.len() - 1], stack[stack.len() - 2]);
+        stack.pop();
+        stack.pop();
+        stack.push(ans);
+    }else if command.contains("if"){
+        let ans = if_statments(stack[stack.len() - 1] as i32, &line, i as i32);
+        if ans != 0{
+
+        }
+    }else if command.contains("then"){
+
+    }else{
+        let num: i32 = command.trim().parse().unwrap();
+        stack.push(num);
+    }
+
+    return stack;
 }
